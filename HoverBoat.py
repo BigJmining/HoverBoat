@@ -11,8 +11,9 @@ and ship movement
 
 # import libraries needed
 import pygame
-
 from os.path import join
+
+import sprites 
 
 pygame.init()
 
@@ -25,43 +26,28 @@ clock = pygame.time.Clock()
 
 opening_splashscreen = pygame.image.load(join('images','opening.png'))
 
-class Hoverboat:
-    def __init__(self,x,y,width,height):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.vel = 1
-        self.image = pygame.image.load(join('images','hoverboat_up_still.png'))
 
-    def move(self):
-        if self.x + 1 < SCREENWIDTH:
-            if self.x > SCREENWIDTH:
-                self.vel *= -1
-            self.x += 1 * self.vel
-        if self.x <= 0:
-            self.vel *= -1
+HB = sprites.Hoverboat(-100,210,50,50)
 
+def redrawGameWindow():
+    window.blit(opening_splashscreen,(0,0))
 
-    def draw(self,window):
-        self.move()
-        window.blit(self.image,(self.x,self.y))
+    HB.draw(window)
 
-
-HB = Hoverboat(0,210,50,50)
+    pygame.display.update()
 
 run = True
 while run:
     clock.tick(FPS)
-    window.fill((0,80,255))
-    window.blit(opening_splashscreen,(0,0))
     
-    HB.draw(window)
+    # key checks
 
+    # closing function
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-    pygame.display.update()
+    
+    redrawGameWindow()
 
 pygame.quit()
     
