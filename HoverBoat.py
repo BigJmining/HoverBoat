@@ -55,11 +55,11 @@ def redrawGameWindow():
         BG.x +=1
         if BG.x >= SCREENWIDTH:
             BG.x = 0
-    window.blit(BG.water,(BG.x,BG.y))
-    window.blit(BG.water,(BG.x+SCREENWIDTH,BG.y))
-    window.blit(BG.water,(BG.x-SCREENWIDTH,BG.y))
-    window.blit(BG.water,(BG.x,BG.y+SCREENHEIGHT))
-    window.blit(BG.water,(BG.x,BG.y-SCREENHEIGHT))
+    window.blit(BG.water,(BG.x, BG.y))
+    window.blit(BG.water,(BG.x+SCREENWIDTH, BG.y))
+    window.blit(BG.water,(BG.x-SCREENWIDTH, BG.y))
+    window.blit(BG.water,(BG.x, BG.y+SCREENHEIGHT))
+    window.blit(BG.water,(BG.x, BG.y-SCREENHEIGHT))
     
     
     HB.draw(window)
