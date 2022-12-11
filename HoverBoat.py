@@ -104,6 +104,7 @@ while run:
                 gameover = False
             else:
                 gameover = True
+    
     elif keys[pygame.K_LEFT]:
         splashscreen = False
         HB.angle += 2

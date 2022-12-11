@@ -99,7 +99,7 @@ class Rock:
         self.height = height
         self.hitbox = (self.x + 5, self.y +0, 80, 80)
         self.vel_x = direction
-        self.vel_y = 1
+        self.vel_y = direction
         self.max_vel = 2
         self.thrust = 1
         self.angle = 0
