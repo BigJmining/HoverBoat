@@ -92,12 +92,13 @@ class Hoverboat:
         
         
 class Rock:
-    def __init__(self,x,y,width,height):
+    def __init__(self,x,y,width,height,direction):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.vel_x = 1
+        self.hitbox = (self.x + 5, self.y +0, 80, 80)
+        self.vel_x = direction
         self.vel_y = 1
         self.max_vel = 2
         self.thrust = 1
@@ -149,4 +150,4 @@ class Rock:
         window.blit(rotated_image,(self.x,self.y))
 
         self.hitbox = (self.x + 5, self.y +0, 80, 80)
-        # pygame.draw.rect(window,(255,0,0),self.hitbox,2)
+        pygame.draw.rect(window,(255,0,0),self.hitbox,2)

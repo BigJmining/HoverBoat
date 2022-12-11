@@ -26,24 +26,40 @@ window = pygame.display.set_mode((SIZE))
 pygame.display.set_caption("HOVERBOAT 2052")
 clock = pygame.time.Clock()
 
-opening_splashscreen = pygame.image.load(join('images','opening.png'))
-water_image = pygame.image.load(join('images','water.png'))
-water = pygame.transform.scale(water_image,(SIZE))
-opening = pygame.transform.scale(opening_splashscreen,(SIZE))
+class Backgrounds:
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+        self.image_opening = pygame.image.load(join('images','opening.png')).convert_alpha()
+        self.opening = pygame.transform.scale(self.image_opening,(SIZE))
+        self.image_water = pygame.image.load(join('images','water.png')).convert_alpha()
+        self.water = pygame.transform.scale(self.image_water,(SIZE))
+        self.gameover = pygame.image.load(join('images','gameover.png')).convert_alpha()
 
+BG = Backgrounds(0,0)
 HB = sprites.Hoverboat(-10,210,50,50)
 ROCKS = [
-    sprites.Rock(   50,  0, 50, 50), 
-    sprites.Rock( -350, 50, 50, 50), 
-    sprites.Rock( -650, 40, 50, 50), 
-    sprites.Rock( -150,100, 50, 50), 
-    sprites.Rock(    0,200, 50, 50) 
+    sprites.Rock(   50,  0, 50, 50,-1), 
+    sprites.Rock( -350, 50, 50, 50, 2), 
+    sprites.Rock(  850, 40, 50, 50,-1), 
+    sprites.Rock(  950,100, 50, 50,-2), 
+    sprites.Rock( -200,200, 50, 50, 1) 
     ]
 
 splashscreen = True
+gameover = False
+
 def redrawGameWindow():
     window.fill((0,60,250))
-    window.blit(water,(0,0))
+    if BG.x < SCREENWIDTH:
+        BG.x +=1
+        if BG.x >= SCREENWIDTH:
+            BG.x = 0
+    window.blit(BG.water,(BG.x,BG.y))
+    window.blit(BG.water,(BG.x+SCREENWIDTH,BG.y))
+    window.blit(BG.water,(BG.x-SCREENWIDTH,BG.y))
+    window.blit(BG.water,(BG.x,BG.y+SCREENHEIGHT))
+    window.blit(BG.water,(BG.x,BG.y-SCREENHEIGHT))
     
     
     HB.draw(window)
@@ -52,7 +68,10 @@ def redrawGameWindow():
         ROCK.draw(window)
 
     if (splashscreen):
-        window.blit(opening,(0,0))
+        window.blit(BG.opening,(0,0))
+
+    if (gameover):
+        window.blit(BG.gameover,(SCREENWIDTH//2-150,SCREENHEIGHT//2-105))
 
     pygame.display.update()
 
@@ -68,9 +87,9 @@ while run:
         splashscreen = False
         HB.up = True
         # if pygame.KEYUP:
-        if (HB.thrust):
+        if (HB.thrust == HB.max_vel):
             HB.thrust = 0
-        else: HB.thrust = 1
+        else: HB.thrust += 1
         HB.down = False
         HB.left = False
         HB.right = False
@@ -80,6 +99,11 @@ while run:
         HB.down = True
         HB.left = False
         HB.right = False
+        if (pygame.KEYUP):
+            if (gameover):
+                gameover = False
+            else:
+                gameover = True
     elif keys[pygame.K_LEFT]:
         splashscreen = False
         HB.angle += 2
@@ -102,6 +126,12 @@ while run:
         if event.type == pygame.QUIT:
             run = False
     
+    # collision check
+    for ROCK in ROCKS:
+        if HB.hitbox[0] == ROCK.hitbox[0]:
+            print('hit')
+    
+
     redrawGameWindow()
 
 pygame.quit()
