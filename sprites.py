@@ -30,6 +30,7 @@ class Hoverboat:
         self.image_right_thrust = pygame.transform.rotate(self.image_up_thrust,-90)
         self.image_left = pygame.transform.flip(self.image_right,1,0)
         self.image_left_thrust = pygame.transform.flip(self.image_right_thrust,1,0)
+        self.sunk = pygame.image.load(join('images','hoverboat_up_SUNK.png'))
         self.rect = self.image_up.get_rect()
         self.speed = 0
 
@@ -90,6 +91,7 @@ class Hoverboat:
         self.hitbox = (self.x + 5, self.y +0, 80, 80)
         pygame.draw.rect(window,(255,0,0),self.hitbox,2)
         
+
         
 class Rock:
     def __init__(self,x,y,width,height,direction):
