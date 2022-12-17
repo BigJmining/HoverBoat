@@ -2,8 +2,9 @@
 # by Jason Lohrey
 
 ''' 
-HOVERBOAT is a 2d top-down boat game where players avoid
-rocks and the shore, while shooting fish for points.
+RiverRafter is a 2d top-down boat game where players avoid
+rocks and the shore, while shooting fish and riding the rapids
+for points.
 
 Based off the classic Astriod game engine (all hail Astroid)
 and ship movement
@@ -23,7 +24,7 @@ FPS = 60
 
 
 window = pygame.display.set_mode((SIZE))
-pygame.display.set_caption("HOVERBOAT 2052")
+pygame.display.set_caption("River Rafting")
 clock = pygame.time.Clock()
 
 class Backgrounds:
@@ -37,7 +38,7 @@ class Backgrounds:
         self.gameover = pygame.image.load(join('images','gameover.png')).convert_alpha()
 
 BG = Backgrounds(0,0)
-HB = sprites.Hoverboat(-10,210,50,50)
+BOAT = sprites.Boat(-10,210,50,50)
 ROCKS = [
     sprites.Rock(   50,  0, 50, 50,-1), 
     sprites.Rock( -350, 50, 50, 50, 2), 
@@ -62,7 +63,7 @@ def redrawGameWindow():
     window.blit(BG.water,(BG.x, BG.y-SCREENHEIGHT))
     
     
-    HB.draw(window)
+    BOAT.draw(window)
 
     for ROCK in ROCKS:
         ROCK.draw(window)
@@ -85,40 +86,41 @@ while run:
     
     if keys[pygame.K_UP]:
         splashscreen = False
-        HB.up = True
+        BOAT.up = True
         # if pygame.KEYUP:
-        if (HB.thrust == HB.max_vel):
-            HB.thrust = 0
-        else: HB.thrust += 1
-        HB.down = False
-        HB.left = False
-        HB.right = False
+        if (BOAT.thrust == BOAT.max_vel):
+            BOAT.thrust = 0
+        else: BOAT.thrust += 1
+        BOAT.down = False
+        BOAT.left = False
+        BOAT.right = False
     elif keys[pygame.K_DOWN]:
         splashscreen = False
-        HB.up = False
-        HB.down = True
-        HB.left = False
-        HB.right = False
-        if (pygame.KEYUP):
-            if (gameover):
-                gameover = False
-            else:
-                gameover = True
+        BOAT.up = False
+        BOAT.down = True
+        BOAT.left = False
+        BOAT.right = False
+        # if (pygame.KEYUP):
+        #     if (gameover):
+        #         gameover = False
+        #     else:
+        #         gameover = True
     
     elif keys[pygame.K_LEFT]:
         splashscreen = False
-        HB.angle += 2
-        HB.up = False
-        HB.down = False
-        HB.left = True
-        HB.right = False
+        BOAT.angle += 2
+        BOAT.up = False
+        BOAT.down = False
+        BOAT.left = True
+        BOAT.right = False
+
     elif keys[pygame.K_RIGHT]:
         splashscreen = False
-        HB.angle-= 2
-        HB.up = False
-        HB.down = False
-        HB.left = False
-        HB.right = True
+        BOAT.angle-= 2
+        BOAT.up = False
+        BOAT.down = False
+        BOAT.left = False
+        BOAT.right = True
 
     elif keys[pygame.K_q]:
         run = False
@@ -129,7 +131,7 @@ while run:
     
     # collision check
     for ROCK in ROCKS:
-        if HB.hitbox[0] == ROCK.hitbox[0]:
+        if BOAT.hitbox[0] == ROCK.hitbox[0]:
             print('hit')
     
 
