@@ -30,10 +30,15 @@ class Boat:
         # self.image_right_thrust = pygame.transform.rotate(self.image_up_thrust,-90)
         # self.image_left = pygame.transform.flip(self.image_right,1,0)
         # self.image_left_thrust = pygame.transform.flip(self.image_right_thrust,1,0)
-        self.image = pygame.image.load(join('images','raft.png'))
+        self.image_still = pygame.image.load(join('images','raft.png'))
+        self.image_moving = pygame.image.load(join('images','raft_moving.png'))
         # self.sunk = pygame.image.load(join('images','hoverboat_up_SUNK.png'))
-        self.rect = self.image.get_rect()
+        self.still_rect = self.image_still.get_rect()
+        self.moving_rect = self.image_moving.get_rect()
         self.speed = 0
+        self.score = 0
+        self.moving = False
+        self.still = True
 
     def addVectors(angle1, length1, angle2, length2):
         x  = math.sin(angle1) * length1 + math.sin(angle2) * length2
@@ -83,14 +88,18 @@ class Boat:
 
     def draw(self,window):
         self.move()
-        
 
-        image = self.image
-        rotated_image = pygame.transform.rotate(image,+float(self.angle))
-        window.blit(rotated_image,(self.x,self.y))
+        if (self.moving):
+            rotated_image = pygame.transform.rotate(self.image_moving,+float(self.angle))
+            window.blit(rotated_image,(self.x,self.y))
+            self.hitbox = (self.x + 5, self.y +0, 80, 80)
+            pygame.draw.rect(window,(255,0,0),self.hitbox,2)
 
-        self.hitbox = (self.x + 5, self.y +0, 80, 80)
-        pygame.draw.rect(window,(255,0,0),self.hitbox,2)
+        elif (self.still):
+            rotated_image = pygame.transform.rotate(self.image_still,+float(self.angle))
+            window.blit(rotated_image,(self.x,self.y))
+            self.hitbox = (self.x + 5, self.y +0, 80, 80)
+            pygame.draw.rect(window,(255,0,0),self.hitbox,2)
         
 
         

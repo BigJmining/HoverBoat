@@ -31,7 +31,7 @@ class Backgrounds:
     def __init__(self,x,y):
         self.x = x
         self.y = y
-        self.image_opening = pygame.image.load(join('images','opening.png')).convert_alpha()
+        self.image_opening = pygame.image.load(join('images','river_raft_opening.png')).convert_alpha()
         self.opening = pygame.transform.scale(self.image_opening,(SIZE))
         self.image_water = pygame.image.load(join('images','water.png')).convert_alpha()
         self.water = pygame.transform.scale(self.image_water,(SIZE))
@@ -80,7 +80,6 @@ def redrawGameWindow():
 run = True
 while run:
     clock.tick(FPS)
-    
     # key checks
     keys = pygame.key.get_pressed()
     
@@ -94,17 +93,16 @@ while run:
         BOAT.down = False
         BOAT.left = False
         BOAT.right = False
+        BOAT.moving = True
+
     elif keys[pygame.K_DOWN]:
         splashscreen = False
         BOAT.up = False
         BOAT.down = True
         BOAT.left = False
         BOAT.right = False
-        # if (pygame.KEYUP):
-        #     if (gameover):
-        #         gameover = False
-        #     else:
-        #         gameover = True
+        BOAT.moving = False
+        # 
     
     elif keys[pygame.K_LEFT]:
         splashscreen = False
@@ -113,6 +111,7 @@ while run:
         BOAT.down = False
         BOAT.left = True
         BOAT.right = False
+        BOAT.moving = False
 
     elif keys[pygame.K_RIGHT]:
         splashscreen = False
@@ -121,18 +120,24 @@ while run:
         BOAT.down = False
         BOAT.left = False
         BOAT.right = True
+        BOAT.moving = False
+
 
     elif keys[pygame.K_q]:
         run = False
+        print(BOAT.score)
+
     # closing function
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-    
+        print(BOAT.score)
+            
     # collision check
     for ROCK in ROCKS:
         if BOAT.hitbox[0] == ROCK.hitbox[0]:
-            print('hit')
+            print('boat hit a rock')
+            BOAT.score -= 10
     
 
     redrawGameWindow()
